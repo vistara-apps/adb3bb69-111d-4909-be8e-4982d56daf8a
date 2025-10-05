@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Finance Theme - Dark Navy with Gold Accents */
+  --color-bg: #0a1628;
+  --color-fg: #f8fafc;
+  --color-accent: #ffd700;
+  --color-accent-hover: #e6c200;
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-surface: #1e293b;
+  --color-surface-hover: #334155;
+  --color-border: #334155;
+  --color-text-muted: #94a3b8;
+  --color-success: #10b981;
+  --color-danger: #ef4444;
+  --color-danger-hover: #dc2626;
+  --color-warning: #f59e0b;
+}
+
+[data-theme='celo'] {
+  --color-bg: #000000;
+  --color-fg: #ffffff;
+  --color-accent: #fbcc5c;
+  --color-accent-hover: #e6b84a;
+  --color-primary: #fbcc5c;
+  --color-primary-hover: #e6b84a;
+  --color-surface: #1a1a1a;
+  --color-surface-hover: #2a2a2a;
+  --color-border: #333333;
+  --color-text-muted: #999999;
+  --color-success: #35d07f;
+  --color-danger: #ff6b6b;
+  --color-danger-hover: #ff5252;
+  --color-warning: #ffa726;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-bg text-fg antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  input, textarea, select {
+    @apply bg-surface text-fg border-border;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-surface rounded-lg;
+    border: 1px solid;
+    border-color: rgb(51 65 85 / 0.5);
+    backdrop-filter: blur(10px);
+  }
+
+  .btn-primary {
+    @apply bg-accent text-bg px-6 py-3 rounded-lg font-semibold hover:bg-accent-hover transition-all duration-200 shadow-button;
+  }
+
+  .btn-secondary {
+    @apply bg-surface text-fg px-6 py-3 rounded-lg font-semibold hover:bg-surface-hover transition-all duration-200;
+    border: 1px solid;
+    border-color: rgb(51 65 85 / 0.5);
+  }
+
+  .btn-danger {
+    @apply bg-danger text-white px-6 py-3 rounded-lg font-semibold hover:bg-danger-hover transition-all duration-200;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-lg bg-surface text-fg placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-200;
+    border: 1px solid;
+    border-color: rgb(51 65 85 / 0.5);
+  }
+
+  .status-badge {
+    @apply px-3 py-1 rounded-full text-sm font-medium inline-flex items-center gap-2;
+  }
+
+  .status-pending {
+    @apply bg-warning bg-opacity-20 text-warning;
+  }
+
+  .status-completed {
+    @apply bg-success bg-opacity-20 text-success;
+  }
+
+  .status-cancelled {
+    @apply bg-danger bg-opacity-20 text-danger;
+  }
+}
+
+@layer utilities {
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s linear infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+}
