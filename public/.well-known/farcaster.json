@@ -1,0 +1,30 @@
+{
+  "accountAssociation": {
+    "header": "",
+    "payload": "",
+    "signature": ""
+  },
+  "frame": {
+    "version": "1",
+    "name": "TapPay",
+    "subtitle": "Built with Zara",
+    "description": "TapPay is a Base Mini App built with Zara.",
+    "iconUrl": "https://0co.to/images/zara-2.png",
+    "homeUrl": "https://adb3bb69111d4909be8e4982d56daf8a-xvg2.vercel.app",
+    "splashImageUrl": "https://adb3bb69111d4909be8e4982d56daf8a-xvg2.vercel.app/splash.png",
+    "splashBackgroundColor": "#000000",
+    "heroImageUrl": "https://adb3bb69111d4909be8e4982d56daf8a-xvg2.vercel.app/image.png",
+    "tagline": "TapPay",
+    "screenshotUrls": [
+      "https://adb3bb69111d4909be8e4982d56daf8a-xvg2.vercel.app/screenshot.png",
+      "https://adb3bb69111d4909be8e4982d56daf8a-xvg2.vercel.app/screenshot.png"
+    ],
+    "primaryCategory": "social",
+    "tags": [
+      "base",
+      "miniapp",
+      "onchainkit"
+    ],
+    "webhookUrl": "https://adb3bb69111d4909be8e4982d56daf8a-xvg2.vercel.app/api/webhook"
+  }
+}

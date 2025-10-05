@@ -1,0 +1,14 @@
+{
+  "name": "TapPay",
+  "description": "TapPay is a Base Mini App built with Zara.",
+  "image": "https://dummyimage.com/1200x628/0a0b0d/ffffff.png&text=OG",
+  "external_url": "https://adb3bb69-111d-4909-be8e-4982d56daf8a.vercel.app",
+  "properties": {
+    "app": {
+      "name": "TapPay",
+      "description": "TapPay is a Base Mini App built with Zara.",
+      "url": "https://adb3bb69-111d-4909-be8e-4982d56daf8a.vercel.app",
+      "icon": "https://0co.to/images/zara-2.png"
+    }
+  }
+}
