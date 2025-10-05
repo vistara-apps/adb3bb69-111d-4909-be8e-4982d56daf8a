@@ -30,18 +30,22 @@ export function SendCryptoForm() {
     setIsSearching(true);
     setError('');
 
-    // Simulate API call to Telegram Bot API
-    setTimeout(() => {
-      // Mock user data
-      setUser({
-        username: username.trim(),
-        fullName: 'John Doe',
-        profilePicUrl: 'https://via.placeholder.com/100',
-        lastActive: '2 hours ago',
-        mutualContacts: 5,
-      });
+    try {
+      // Call our API to get user profile from Telegram
+      const response = await fetch(`/api/telegram/user?username=${encodeURIComponent(username.trim())}`);
+      const data = await response.json();
+
+      if (data.success && data.profile) {
+        setUser(data.profile);
+      } else {
+        setError(data.error || 'User not found');
+      }
+    } catch (error) {
+      console.error('Error searching user:', error);
+      setError('Failed to search user. Please try again.');
+    } finally {
       setIsSearching(false);
-    }, 1000);
+    }
   };
 
   const handleSend = async () => {
@@ -50,8 +54,45 @@ export function SendCryptoForm() {
       return;
     }
 
-    // Handle transaction submission
-    console.log('Sending', amount, 'to', user?.username, 'Test:', isTestTransfer);
+    if (!user) {
+      setError('Please search for a user first');
+      return;
+    }
+
+    setError('');
+
+    try {
+      // Create transfer via API
+      const response = await fetch('/api/transfers', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          recipientTelegramUsername: user.username,
+          amount: parseFloat(amount),
+          currency: 'USDC',
+          isTestTransfer,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Reset form
+        setAmount('');
+        setUser(null);
+        setIsTestTransfer(false);
+
+        // Show success message
+        alert(`Transfer ${isTestTransfer ? 'test ' : ''}initiated successfully!`);
+      } else {
+        setError(data.error || 'Failed to send transfer');
+      }
+    } catch (error) {
+      console.error('Error sending transfer:', error);
+      setError('Failed to send transfer. Please try again.');
+    }
   };
 
   return (

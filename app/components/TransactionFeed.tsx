@@ -1,9 +1,23 @@
 'use client';
 
-import { useState } from 'react';
-import { ArrowUpRight, ArrowDownLeft, CheckCircle2, Clock, XCircle } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ArrowUpRight, ArrowDownLeft } from 'lucide-react';
 import { StatusBadge } from './StatusBadge';
 import { CountdownTimer } from './CountdownTimer';
+
+interface Transfer {
+  transfer_id: string;
+  sender_id?: string;
+  recipient_id?: string;
+  recipient_telegram_username: string;
+  amount: number;
+  currency: string;
+  status: 'pending' | 'completed' | 'cancelled' | 'failed';
+  is_test_transfer: boolean;
+  cancellable_until?: string;
+  created_at: string;
+  completed_at?: string;
+}
 
 interface Transaction {
   id: string;
@@ -18,42 +32,67 @@ interface Transaction {
 }
 
 export function TransactionFeed() {
-  const [transactions] = useState<Transaction[]>([
-    {
-      id: '1',
-      type: 'sent',
-      username: 'johndoe',
-      amount: '25.00',
-      currency: 'USDC',
-      status: 'pending',
-      timestamp: '2 minutes ago',
-      isTestTransfer: true,
-      cancellableUntil: new Date(Date.now() + 3 * 60 * 1000).toISOString(),
-    },
-    {
-      id: '2',
-      type: 'received',
-      username: 'alice',
-      amount: '50.00',
-      currency: 'USDC',
-      status: 'completed',
-      timestamp: '1 hour ago',
-      isTestTransfer: false,
-    },
-    {
-      id: '3',
-      type: 'sent',
-      username: 'bob',
-      amount: '10.00',
-      currency: 'USDC',
-      status: 'cancelled',
-      timestamp: '3 hours ago',
-      isTestTransfer: true,
-    },
-  ]);
+  const [transfers, setTransfers] = useState<Transfer[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const handleCancelTransfer = (id: string) => {
-    console.log('Cancelling transfer:', id);
+  useEffect(() => {
+    fetchTransfers();
+  }, []);
+
+  const fetchTransfers = async () => {
+    try {
+      // In a real app, you'd get the current user ID from authentication
+      // For now, we'll use a mock user ID
+      const userId = 'mock-user-id';
+
+      const response = await fetch(`/api/transfers?userId=${userId}`);
+      const data = await response.json();
+
+      if (data.success) {
+        setTransfers(data.transfers);
+      } else {
+        setError(data.error || 'Failed to load transfers');
+      }
+    } catch (error) {
+      console.error('Error fetching transfers:', error);
+      setError('Failed to load transfers');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const transactions: Transaction[] = transfers.map((transfer) => ({
+    id: transfer.transfer_id,
+    type: transfer.sender_id ? 'sent' : 'received',
+    username: transfer.recipient_telegram_username,
+    amount: transfer.amount.toFixed(2),
+    currency: transfer.currency,
+    status: transfer.status,
+    timestamp: new Date(transfer.created_at).toLocaleString(),
+    isTestTransfer: transfer.is_test_transfer,
+    cancellableUntil: transfer.cancellable_until,
+  }));
+
+  const handleCancelTransfer = async (id: string) => {
+    try {
+      const response = await fetch(`/api/transfers/${id}/cancel`, {
+        method: 'POST',
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Refresh transfers
+        await fetchTransfers();
+        alert('Transfer cancelled successfully');
+      } else {
+        alert(data.error || 'Failed to cancel transfer');
+      }
+    } catch (error) {
+      console.error('Error cancelling transfer:', error);
+      alert('Failed to cancel transfer');
+    }
   };
 
   return (
@@ -65,7 +104,15 @@ export function TransactionFeed() {
         </p>
       </div>
 
-      {transactions.length === 0 ? (
+      {loading ? (
+        <div className="glass-card p-12 text-center">
+          <p className="text-text-muted">Loading transactions...</p>
+        </div>
+      ) : error ? (
+        <div className="glass-card p-12 text-center">
+          <p className="text-danger">{error}</p>
+        </div>
+      ) : transactions.length === 0 ? (
         <div className="glass-card p-12 text-center">
           <p className="text-text-muted">No transactions yet</p>
         </div>

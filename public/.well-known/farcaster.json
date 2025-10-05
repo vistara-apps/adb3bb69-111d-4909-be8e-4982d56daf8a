@@ -7,24 +7,23 @@
   "frame": {
     "version": "1",
     "name": "TapPay",
-    "subtitle": "Built with Zara",
-    "description": "TapPay is a Base Mini App built with Zara.",
+    "subtitle": "Send crypto as easy as sending a message",
+    "description": "TapPay enables instant crypto transfers to Telegram users via their username, with identity verification and zero-setup wallets.",
     "iconUrl": "https://0co.to/images/zara-2.png",
     "homeUrl": "https://adb3bb69111d4909be8e4982d56daf8a-xvg2.vercel.app",
-    "splashImageUrl": "https://adb3bb69111d4909be8e4982d56daf8a-xvg2.vercel.app/splash.png",
-    "splashBackgroundColor": "#000000",
-    "heroImageUrl": "https://adb3bb69111d4909be8e4982d56daf8a-xvg2.vercel.app/image.png",
-    "tagline": "TapPay",
-    "screenshotUrls": [
-      "https://adb3bb69111d4909be8e4982d56daf8a-xvg2.vercel.app/screenshot.png",
-      "https://adb3bb69111d4909be8e4982d56daf8a-xvg2.vercel.app/screenshot.png"
-    ],
-    "primaryCategory": "social",
+    "imageUrl": "https://adb3bb69111d4909be8e4982d56daf8a-xvg2.vercel.app/api/frames/image?type=main",
+    "buttonTitle": "Send Crypto",
+    "splashImageUrl": "https://adb3bb69111d4909be8e4982d56daf8a-xvg2.vercel.app/api/frames/image?type=main",
+    "splashBackgroundColor": "#0a1628",
+    "tagline": "Send crypto instantly to Telegram users",
+    "primaryCategory": "finance",
     "tags": [
       "base",
       "miniapp",
-      "onchainkit"
+      "crypto",
+      "telegram",
+      "payments"
     ],
-    "webhookUrl": "https://adb3bb69111d4909be8e4982d56daf8a-xvg2.vercel.app/api/webhook"
+    "webhookUrl": "https://adb3bb69111d4909be8e4982d56daf8a-xvg2.vercel.app/api/frames"
   }
 }
